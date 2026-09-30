@@ -28,6 +28,12 @@ input{width:100%;height:48px;border:1px solid #d1d5db;border-radius:12px;padding
 .stat-card{padding:4px 8px;margin-bottom:4px}
 .stat-card .stat{font-size:20px;margin-top:0}
 .add-record{height:36px;font-size:14px;margin-top:5px}
+.action-row{display:grid;grid-template-columns:2fr 1fr;gap:6px;margin-top:5px}
+.action-row button{margin-top:0;width:100%}
+.clear-record{height:36px;font-size:14px}
+.hidden-time{display:none!important}
+.manager-bottom{padding:6px;margin-top:5px}
+.manager-bottom button{width:100%;height:36px;font-size:14px}
 input:focus{outline:2px solid #bfdbfe;border-color:#60a5fa}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 button{border:0;border-radius:9px;height:38px;padding:0 10px;font-size:14px;font-weight:700;cursor:pointer}
@@ -60,9 +66,8 @@ hr{border:0;border-top:1px solid var(--line);margin:15px 0}
 
 <main>
   <section id="staffPage">
-    <div class="card form-top">
-      <label for="workTime">時間</label>
-      <input id="workTime" class="time-input" type="datetime-local" readonly aria-label="自動記錄時間">
+    <div class="hidden-time">
+      <input id="workTime" type="datetime-local" readonly aria-label="自動記錄時間">
     </div>
 
     <div class="card form-bottom">
@@ -77,13 +82,9 @@ hr{border:0;border-top:1px solid var(--line);margin:15px 0}
         </div>
       </div>
 
-      <button class="primary add-record" onclick="addRecord()">＋ 新增紀錄</button>
-    </div>
-
-    <div class="card">
-      <div class="toolbar">
-        <button class="light" onclick="openManager()">老闆管理</button>
-        <button class="light" onclick="clearForm()">清空輸入</button>
+      <div class="action-row">
+        <button class="primary add-record" onclick="addRecord()">＋ 新增紀錄</button>
+        <button class="light clear-record" onclick="clearForm()">清空輸入</button>
       </div>
     </div>
 
@@ -96,6 +97,10 @@ hr{border:0;border-top:1px solid var(--line);margin:15px 0}
     <div class="card">
       <b>最近 5 筆訂單</b>
       <div id="recentRecords"></div>
+    </div>
+
+    <div class="card manager-bottom">
+      <button class="light" onclick="openManager()">老闆管理</button>
     </div>
   </section>
 
