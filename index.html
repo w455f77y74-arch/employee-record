@@ -40,7 +40,7 @@ button{border:0;border-radius:9px;height:38px;padding:0 10px;font-size:14px;font
 .primary{background:var(--primary);color:#fff;width:100%;margin-top:12px}
 .blue{background:var(--accent);color:#fff}.light{background:#eef2f7;color:#111827}
 .danger{background:#fee2e2;color:#b91c1c}
-.toolbar{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.toolbar{display:grid;grid-template-columns:1fr 1fr;gap:6px}.toolbar button:last-child{grid-column:1 / -1}
 .hidden{display:none!important}
 .stat{font-size:28px;font-weight:800;margin-top:4px}.muted{color:var(--muted);font-size:13px}
 .record{position:relative;border:1px solid var(--line);border-radius:10px;padding:8px 9px;margin-top:5px;background:#fafafa;overflow:hidden}
@@ -59,10 +59,7 @@ hr{border:0;border-top:1px solid var(--line);margin:15px 0}
 </style>
 </head>
 <body>
-<header>
-  <h1>員工記錄</h1>
-  <div class="sub">手機版｜資料儲存在本機</div>
-</header>
+<header aria-hidden="true"></header>
 
 <main>
   <section id="staffPage">
@@ -126,6 +123,7 @@ hr{border:0;border-top:1px solid var(--line);margin:15px 0}
     <div class="card">
       <div class="toolbar">
         <button class="blue" onclick="exportCSV()">匯出 CSV</button>
+        <button class="light" onclick="changePassword()">修改密碼</button>
         <button class="danger" onclick="deleteAll()">清除全部</button>
       </div>
       <div id="records"></div>
@@ -152,7 +150,10 @@ hr{border:0;border-top:1px solid var(--line);margin:15px 0}
 
 <script>
 const KEY="employee_records_v1";
-const PASSWORD="0922";
+const DEFAULT_PASSWORD="0922";
+const PASSWORD_KEY="employee_admin_password_v1";
+function getPassword(){return localStorage.getItem(PASSWORD_KEY)||DEFAULT_PASSWORD;}
+function setPassword(v){localStorage.setItem(PASSWORD_KEY,v);}
 
 function loadRecords(){
   try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []}
@@ -189,9 +190,11 @@ function clearForm(){
 
 function addRecord(){
   const time=document.getElementById("workTime").value;
-  const amount=Number(document.getElementById("amount").value);
+  const rawAmount=document.getElementById("amount").value.trim();
+  const amount=Number(rawAmount);
   const phone=document.getElementById("phone3").value.trim();
 
+  if(!rawAmount){alert("請先輸入金額，再新增紀錄");return}
   if(!time){alert("請輸入時間");return}
   if(!Number.isFinite(amount)||amount<0){alert("請輸入正確金額");return}
   if(phone && !/^\d{3}$/.test(phone)){alert("電話末三碼請輸入 3 個數字；也可以留空");return}
@@ -245,12 +248,24 @@ function openManager(){
 }
 function closeModal(){document.getElementById("passwordModal").classList.add("hidden")}
 function checkPassword(){
-  if(document.getElementById("password").value===PASSWORD){
+  if(document.getElementById("password").value===getPassword()){
     closeModal();
     document.getElementById("staffPage").classList.add("hidden");
     document.getElementById("managerPage").classList.remove("hidden");
     renderManager();
   }else alert("密碼錯誤");
+}
+function changePassword(){
+  const current=prompt("請輸入目前管理密碼");
+  if(current===null)return;
+  if(current!==getPassword()){alert("目前密碼錯誤");return}
+  const next=prompt("請輸入新的管理密碼（4位數字）");
+  if(next===null)return;
+  if(!/^\d{4}$/.test(next)){alert("新密碼請輸入4位數字");return}
+  const confirmNext=prompt("請再次輸入新密碼");
+  if(confirmNext!==next){alert("兩次輸入的新密碼不一致");return}
+  setPassword(next);
+  alert("管理密碼已修改");
 }
 document.getElementById("password").addEventListener("keydown",e=>{if(e.key==="Enter")checkPassword()});
 
