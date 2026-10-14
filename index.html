@@ -22,7 +22,8 @@ main{max-width:620px;margin:auto;padding:7px 9px 20px}
 label{display:block;font-size:12px;font-weight:700;margin:0 0 3px}
 input{width:100%;height:48px;border:1px solid #d1d5db;border-radius:12px;padding:0 13px;font-size:17px;background:#fff;color:var(--text)}
 .time-input{height:28px;font-size:12px;padding:0 8px}
-.amount-input{height:30px;font-size:15px;font-weight:500;text-align:left;padding:0 8px;border-radius:7px;line-height:30px}.phone-input{height:30px;font-size:15px;font-weight:400;text-align:left;padding:0 8px;border-radius:7px}
+.amount-input{height:30px;font-size:15px;font-weight:500;text-align:left;padding:0 8px;border-radius:7px;line-height:30px}
+.phone-input{height:30px;font-size:15px;font-weight:400;text-align:left;padding:0 8px;border-radius:7px}
 .form-top{padding:4px 8px;margin-bottom:4px}
 .form-bottom{padding:5px 8px;margin-bottom:4px}
 .stat-card{padding:4px 8px;margin-bottom:4px}
@@ -44,8 +45,13 @@ button{border:0;border-radius:9px;height:38px;padding:0 10px;font-size:14px;font
 .hidden{display:none!important}
 .stat{font-size:28px;font-weight:800;margin-top:4px}.muted{color:var(--muted);font-size:13px}
 .record{position:relative;border:1px solid var(--line);border-radius:10px;padding:8px 9px;margin-top:5px;background:#fafafa;overflow:hidden}
-.record-top{display:flex;justify-content:flex-start;gap:8px;font-weight:700;position:relative;z-index:2;min-height:34px}.record-top span:last-child{font-size:32px;font-weight:950;line-height:1}
-.record-meta{position:relative;z-index:2;width:46%;font-size:11px;color:var(--muted);margin-top:2px;line-height:1.25}.record-phone{font-size:24px;font-weight:900;color:var(--text)}.record-top span:last-child{position:absolute;right:0;top:0;width:58%;height:100%;font-size:52px;font-weight:950;color:#111827;line-height:1;display:flex;align-items:center;justify-content:center;text-align:center;white-space:nowrap}.recent-phone{font-size:28px;font-weight:950;color:#111827;line-height:1}
+.record-top{display:flex;justify-content:flex-start;gap:8px;font-weight:700;position:relative;z-index:2;min-height:34px}
+.record-top span:last-child{font-size:32px;font-weight:950;line-height:1}
+.record-meta{position:relative;z-index:2;width:46%;font-size:11px;color:var(--muted);margin-top:2px;line-height:1.25}
+.record-phone{font-size:24px;font-weight:900;color:var(--text)}
+.record-colored{color:var(--record-color)!important}
+.record-top span:last-child{position:absolute;right:0;top:0;width:58%;height:100%;font-size:52px;font-weight:950;color:#111827;line-height:1;display:flex;align-items:center;justify-content:center;text-align:center;white-space:nowrap}
+.recent-phone{font-size:28px;font-weight:950;color:#111827;line-height:1}
 .record-actions{display:flex;justify-content:flex-end;margin-top:8px}
 .small{height:38px;font-size:14px}
 .empty{text-align:center;padding:22px;color:var(--muted)}
@@ -58,11 +64,13 @@ hr{border:0;border-top:1px solid var(--line);margin:15px 0}
 @media(min-width:600px){.modal{align-items:center}.modalbox{border-radius:22px}}
 </style>
 </head>
+
 <body>
 <header aria-hidden="true"></header>
 
 <main>
   <section id="staffPage">
+
     <div class="hidden-time">
       <input id="workTime" type="datetime-local" readonly aria-label="自動記錄時間">
     </div>
@@ -73,6 +81,7 @@ hr{border:0;border-top:1px solid var(--line);margin:15px 0}
           <label for="amount">金額</label>
           <input id="amount" class="amount-input" type="number" inputmode="decimal" min="0" step="1" placeholder="例如 500">
         </div>
+
         <div>
           <label for="phone3">電話末三碼</label>
           <input id="phone3" class="phone-input" type="text" inputmode="numeric" maxlength="3" placeholder="末三碼">
@@ -99,20 +108,29 @@ hr{border:0;border-top:1px solid var(--line);margin:15px 0}
     <div class="card manager-bottom">
       <button class="light" onclick="openManager()">程式管理</button>
     </div>
+
   </section>
 
   <section id="managerPage" class="hidden">
+
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center">
-        <div><b>程式管理</b><div class="muted">完整紀錄與金額</div></div>
+        <div>
+          <b>程式管理</b>
+          <div class="muted">完整紀錄與金額</div>
+        </div>
+
         <button class="light small" onclick="backToStaff()">返回員工頁</button>
       </div>
+
       <hr>
+
       <div class="row">
         <div>
           <div class="muted">總筆數</div>
           <div id="totalCount" class="stat">0</div>
         </div>
+
         <div>
           <div class="muted">總金額</div>
           <div id="totalAmount" class="stat">$0</div>
@@ -126,6 +144,7 @@ hr{border:0;border-top:1px solid var(--line);margin:15px 0}
         <button class="light" onclick="changePassword()">修改密碼</button>
         <button class="danger" onclick="deleteAll()">清除全部</button>
       </div>
+
       <div id="records"></div>
     </div>
 
@@ -133,6 +152,7 @@ hr{border:0;border-top:1px solid var(--line);margin:15px 0}
       <b>重要：</b>目前這個單一 HTML 版本不需要 Excel，也不需要另外安裝 App。
       資料存在「使用這個網頁的手機」裡。若員工和老闆使用不同手機，兩台手機的資料不會自動同步。
     </div>
+
   </section>
 
   <div class="footer">員工記錄手機 App｜單一 HTML 版本</div>
@@ -140,194 +160,587 @@ hr{border:0;border-top:1px solid var(--line);margin:15px 0}
 
 <div id="passwordModal" class="modal hidden">
   <div class="modalbox">
+
     <h2>程式管理</h2>
-    <div class="muted" style="margin-bottom:10px">請輸入管理密碼</div>
+
+    <div class="muted" style="margin-bottom:10px">
+      請輸入管理密碼
+    </div>
+
     <input id="password" type="password" inputmode="numeric" maxlength="4" placeholder="">
-    <button class="primary" onclick="checkPassword()">進入管理頁</button>
-    <button class="light" style="width:100%;margin-top:8px" onclick="closeModal()">取消</button>
+
+    <button class="primary" onclick="checkPassword()">
+      進入管理頁
+    </button>
+
+    <button class="light" style="width:100%;margin-top:8px" onclick="closeModal()">
+      取消
+    </button>
+
   </div>
 </div>
 
 <script>
+
 const KEY="employee_records_v1";
 const DEFAULT_PASSWORD="0922";
 const PASSWORD_KEY="employee_admin_password_v1";
-function getPassword(){return localStorage.getItem(PASSWORD_KEY)||DEFAULT_PASSWORD;}
-function setPassword(v){localStorage.setItem(PASSWORD_KEY,v);}
+
+function getPassword(){
+  return localStorage.getItem(PASSWORD_KEY)||DEFAULT_PASSWORD;
+}
+
+function setPassword(v){
+  localStorage.setItem(PASSWORD_KEY,v);
+}
 
 function loadRecords(){
-  try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return []}
+  try{
+    return JSON.parse(localStorage.getItem(KEY)||"[]")
+  }catch(e){
+    return []
+  }
 }
-function saveRecords(records){localStorage.setItem(KEY,JSON.stringify(records))}
-function pad(n){return String(n).padStart(2,"0")}
+
+function saveRecords(records){
+  localStorage.setItem(KEY,JSON.stringify(records))
+}
+
+function pad(n){
+  return String(n).padStart(2,"0")
+}
+
 function nowLocal(){
   const d=new Date();
-  return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+"T"+pad(d.getHours())+":"+pad(d.getMinutes());
+
+  return d.getFullYear()+"-"+
+         pad(d.getMonth()+1)+"-"+
+         pad(d.getDate())+"T"+
+         pad(d.getHours())+":"+
+         pad(d.getMinutes());
 }
+
 function fmtTime(v){
   if(!v)return "";
+
   const d=new Date(v);
+
   if(Number.isNaN(d.getTime())) return v;
-  return d.getFullYear()+"/"+pad(d.getMonth()+1)+"/"+pad(d.getDate())+" "+
-         pad(d.getHours())+":"+pad(d.getMinutes());
+
+  return d.getFullYear()+"/"+
+         pad(d.getMonth()+1)+"/"+
+         pad(d.getDate())+" "+
+         pad(d.getHours())+":"+
+         pad(d.getMinutes());
 }
-function money(n){return Number(n||0).toLocaleString("zh-TW",{maximumFractionDigits:0})}
+
+function money(n){
+  return Number(n||0).toLocaleString("zh-TW",{
+    maximumFractionDigits:0
+  })
+}
 
 document.getElementById("workTime").value=nowLocal();
 
 // 員工輸入金額時，自動把時間更新成當下時間。
 function refreshTimeOnAmount(){
+
   const amount=document.getElementById("amount").value.trim();
-  if(amount!=="") document.getElementById("workTime").value=nowLocal();
+
+  if(amount!==""){
+    document.getElementById("workTime").value=nowLocal();
+  }
 }
-document.getElementById("amount").addEventListener("input",refreshTimeOnAmount);
+
+document.getElementById("amount")
+  .addEventListener("input",refreshTimeOnAmount);
+
 
 function clearForm(){
+
   document.getElementById("amount").value="";
   document.getElementById("phone3").value="";
   document.getElementById("workTime").value=nowLocal();
+
 }
 
+
 function addRecord(){
+
   const time=document.getElementById("workTime").value;
   const rawAmount=document.getElementById("amount").value.trim();
   const amount=Number(rawAmount);
   const phone=document.getElementById("phone3").value.trim();
 
-  if(!rawAmount){alert("請先輸入金額，再新增紀錄");return}
-  if(!time){alert("請輸入時間");return}
-  if(!Number.isFinite(amount)||amount<0){alert("請輸入正確金額");return}
-  if(phone && !/^\d{3}$/.test(phone)){alert("電話末三碼請輸入 3 個數字；也可以留空");return}
+  if(!rawAmount){
+    alert("請先輸入金額，再新增紀錄");
+    return
+  }
+
+  if(!time){
+    alert("請輸入時間");
+    return
+  }
+
+  if(!Number.isFinite(amount)||amount<0){
+    alert("請輸入正確金額");
+    return
+  }
+
+  if(phone && !/^\d{3}$/.test(phone)){
+    alert("電話末三碼請輸入 3 個數字；也可以留空");
+    return
+  }
 
   const records=loadRecords();
+
   records.unshift({
-    id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),
-    time,amount,phone,
+    id:Date.now().toString(36)+
+       Math.random().toString(36).slice(2,7),
+
+    time,
+    amount,
+    phone,
+
     createdAt:new Date().toISOString()
   });
+
   saveRecords(records);
+
   clearForm();
+
   updateStaffCount();
   renderRecentRecords();
+
 }
+
+
+/* 五種顏色 */
+const RECORD_COLORS=[
+  "#2563eb",
+  "#dc2626",
+  "#059669",
+  "#d97706",
+  "#7c3aed"
+];
+
+
+/*
+  有電話末三碼：
+  金額與末三碼使用同一顏色。
+
+  沒有電話末三碼：
+  維持黑色。
+*/
+function recordColor(index,phone){
+
+  return phone
+    ? RECORD_COLORS[index % RECORD_COLORS.length]
+    : "#111827";
+}
+
 
 function renderRecentRecords(){
+
   const records=loadRecords().slice(0,5);
   const box=document.getElementById("recentRecords");
+
   if(!records.length){
-    box.innerHTML='<div class="empty">目前還沒有訂單</div>';
+
+    box.innerHTML=
+      '<div class="empty">目前還沒有訂單</div>';
+
     return;
   }
-  box.innerHTML=records.map((r,i)=>`
+
+  box.innerHTML=records.map((r,i)=>{
+
+    const color=recordColor(i,r.phone);
+
+    const style=r.phone
+      ? ` style="--record-color:${color}"`
+      : "";
+
+    const cls=r.phone
+      ? " record-colored"
+      : "";
+
+    return `
     <div class="record">
+
       <div class="record-top">
+
         <span>第 ${i+1} 筆</span>
-        <span>$${money(r.amount)}</span>
+
+        <span class="${cls}"${style}>
+          $${money(r.amount)}
+        </span>
+
       </div>
+
       <div class="record-meta">
-        時間：${escapeHtml(fmtTime(r.time))}<br>
-        電話末三碼：<span class="recent-phone">${r.phone ? escapeHtml(r.phone) : '未填'}</span>
+
+        時間：
+        ${escapeHtml(fmtTime(r.time))}
+        <br>
+
+        電話末三碼：
+        <span class="recent-phone${cls}"${style}>
+          ${r.phone ? escapeHtml(r.phone) : '未填'}
+        </span>
+
       </div>
-    </div>`).join("");
+
+    </div>`;
+
+  }).join("");
+
 }
+
 
 function updateStaffCount(){
+
   const today=new Date();
-  const y=today.getFullYear(),m=today.getMonth(),d=today.getDate();
+
+  const y=today.getFullYear();
+  const m=today.getMonth();
+  const d=today.getDate();
+
   const count=loadRecords().filter(r=>{
+
     const x=new Date(r.time);
-    return x.getFullYear()===y&&x.getMonth()===m&&x.getDate()===d;
+
+    return x.getFullYear()===y &&
+           x.getMonth()===m &&
+           x.getDate()===d;
+
   }).length;
+
   document.getElementById("staffCount").textContent=count;
+
 }
+
 
 function openManager(){
+
   document.getElementById("password").value="";
-  document.getElementById("passwordModal").classList.remove("hidden");
-  setTimeout(()=>document.getElementById("password").focus(),100);
+
+  document
+    .getElementById("passwordModal")
+    .classList
+    .remove("hidden");
+
+  setTimeout(()=>{
+    document.getElementById("password").focus();
+  },100);
+
 }
-function closeModal(){document.getElementById("passwordModal").classList.add("hidden")}
+
+
+function closeModal(){
+
+  document
+    .getElementById("passwordModal")
+    .classList
+    .add("hidden");
+
+}
+
+
 function checkPassword(){
-  if(document.getElementById("password").value===getPassword()){
+
+  if(
+    document.getElementById("password").value
+    ===
+    getPassword()
+  ){
+
     closeModal();
-    document.getElementById("staffPage").classList.add("hidden");
-    document.getElementById("managerPage").classList.remove("hidden");
+
+    document
+      .getElementById("staffPage")
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById("managerPage")
+      .classList
+      .remove("hidden");
+
     renderManager();
-  }else alert("密碼錯誤");
+
+  }else{
+
+    alert("密碼錯誤");
+
+  }
+
 }
+
+
 function changePassword(){
+
   const current=prompt("請輸入目前管理密碼");
+
   if(current===null)return;
-  if(current!==getPassword()){alert("目前密碼錯誤");return}
-  const next=prompt("請輸入新的管理密碼（4位數字）");
+
+  if(current!==getPassword()){
+
+    alert("目前密碼錯誤");
+    return;
+
+  }
+
+  const next=prompt(
+    "請輸入新的管理密碼（4位數字）"
+  );
+
   if(next===null)return;
-  if(!/^\d{4}$/.test(next)){alert("新密碼請輸入4位數字");return}
-  const confirmNext=prompt("請再次輸入新密碼");
-  if(confirmNext!==next){alert("兩次輸入的新密碼不一致");return}
+
+  if(!/^\d{4}$/.test(next)){
+
+    alert("新密碼請輸入4位數字");
+    return;
+
+  }
+
+  const confirmNext=prompt(
+    "請再次輸入新密碼"
+  );
+
+  if(confirmNext!==next){
+
+    alert("兩次輸入的新密碼不一致");
+    return;
+
+  }
+
   setPassword(next);
+
   alert("管理密碼已修改");
+
 }
-document.getElementById("password").addEventListener("keydown",e=>{if(e.key==="Enter")checkPassword()});
+
+
+document
+  .getElementById("password")
+  .addEventListener(
+    "keydown",
+    e=>{
+      if(e.key==="Enter"){
+        checkPassword()
+      }
+    }
+  );
+
 
 function backToStaff(){
-  document.getElementById("managerPage").classList.add("hidden");
-  document.getElementById("staffPage").classList.remove("hidden");
+
+  document
+    .getElementById("managerPage")
+    .classList
+    .add("hidden");
+
+  document
+    .getElementById("staffPage")
+    .classList
+    .remove("hidden");
+
   updateStaffCount();
+
 }
 
+
 function renderManager(){
+
   const records=loadRecords();
-  document.getElementById("totalCount").textContent=records.length;
-  document.getElementById("totalAmount").textContent="$"+money(records.reduce((s,r)=>s+Number(r.amount||0),0));
+
+  document.getElementById("totalCount")
+    .textContent=records.length;
+
+  document.getElementById("totalAmount")
+    .textContent="$"+
+    money(
+      records.reduce(
+        (s,r)=>s+Number(r.amount||0),
+        0
+      )
+    );
+
   const box=document.getElementById("records");
-  if(!records.length){box.innerHTML='<div class="empty">目前沒有紀錄</div>';return}
-  box.innerHTML=records.map((r,i)=>`
-    <div class="record">
-      <div class="record-top">
-        <span>#${records.length-i}</span>
-        <span>$${money(r.amount)}</span>
-      </div>
-      <div class="record-meta">
-        時間：${escapeHtml(fmtTime(r.time))}<br>
-        電話末三碼：<span class="record-phone">${r.phone ? escapeHtml(r.phone) : "未填"}</span>
-      </div>
-      <div class="record-actions">
-        <button class="danger small" onclick="deleteOne('${r.id}')">刪除</button>
-      </div>
-    </div>`).join("");
-}
-function deleteOne(id){
-  if(!confirm("確定要刪除這筆紀錄嗎？"))return;
-  saveRecords(loadRecords().filter(r=>r.id!==id));
-  renderManager();updateStaffCount();renderRecentRecords();
-}
-function deleteAll(){
-  const records=loadRecords();
-  if(!records.length)return;
-  if(confirm("確定要清除全部紀錄？這個動作無法復原。")){
-    localStorage.removeItem(KEY);renderManager();updateStaffCount();renderRecentRecords();
+
+  if(!records.length){
+
+    box.innerHTML=
+      '<div class="empty">目前沒有紀錄</div>';
+
+    return;
   }
+
+  box.innerHTML=records.map((r,i)=>{
+
+    const color=recordColor(i,r.phone);
+
+    const style=r.phone
+      ? ` style="--record-color:${color}"`
+      : "";
+
+    const cls=r.phone
+      ? " record-colored"
+      : "";
+
+    return `
+    <div class="record">
+
+      <div class="record-top">
+
+        <span>#${records.length-i}</span>
+
+        <span class="${cls}"${style}>
+          $${money(r.amount)}
+        </span>
+
+      </div>
+
+      <div class="record-meta">
+
+        時間：
+        ${escapeHtml(fmtTime(r.time))}
+        <br>
+
+        電話末三碼：
+        <span class="record-phone${cls}"${style}>
+          ${r.phone ? escapeHtml(r.phone) : "未填"}
+        </span>
+
+      </div>
+
+      <div class="record-actions">
+
+        <button
+          class="danger small"
+          onclick="deleteOne('${r.id}')">
+          刪除
+        </button>
+
+      </div>
+
+    </div>`;
+
+  }).join("");
+
 }
-function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+
+function deleteOne(id){
+
+  if(!confirm("確定要刪除這筆紀錄嗎？"))
+    return;
+
+  saveRecords(
+    loadRecords().filter(r=>r.id!==id)
+  );
+
+  renderManager();
+  updateStaffCount();
+  renderRecentRecords();
+
 }
-function exportCSV(){
+
+
+function deleteAll(){
+
   const records=loadRecords();
-  if(!records.length){alert("目前沒有資料可以匯出");return}
-  const rows=[["時間","金額","電話末三碼"],
-    ...records.map(r=>[fmtTime(r.time),r.amount,r.phone])];
-  const csv="\uFEFF"+rows.map(row=>row.map(v=>{
-    const s=String(v??"").replace(/"/g,'""');return '"'+s+'"';
-  }).join(",")).join("\r\n");
-  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob);
-  a.download="員工記錄_"+new Date().toISOString().slice(0,10)+".csv";
-  a.click();
-  URL.revokeObjectURL(a.href);
+
+  if(!records.length)return;
+
+  if(
+    confirm(
+      "確定要清除全部紀錄？這個動作無法復原。"
+    )
+  ){
+
+    localStorage.removeItem(KEY);
+
+    renderManager();
+    updateStaffCount();
+    renderRecentRecords();
+
+  }
+
 }
+
+
+function escapeHtml(s){
+
+  return String(s).replace(
+    /[&<>"']/g,
+    c=>({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[c])
+  );
+
+}
+
+
+function exportCSV(){
+
+  const records=loadRecords();
+
+  if(!records.length){
+
+    alert("目前沒有資料可以匯出");
+    return;
+
+  }
+
+  const rows=[
+    ["時間","金額","電話末三碼"],
+    ...records.map(
+      r=>[fmtTime(r.time),r.amount,r.phone]
+    )
+  ];
+
+  const csv="\uFEFF"+
+    rows.map(row=>
+      row.map(v=>{
+
+        const s=String(v??"")
+          .replace(/"/g,'""');
+
+        return '"'+s+'"';
+
+      }).join(",")
+    ).join("\r\n");
+
+  const blob=new Blob(
+    [csv],
+    {type:"text/csv;charset=utf-8"}
+  );
+
+  const a=document.createElement("a");
+
+  a.href=URL.createObjectURL(blob);
+
+  a.download=
+    "員工記錄_"+
+    new Date().toISOString().slice(0,10)+
+    ".csv";
+
+  a.click();
+
+  URL.revokeObjectURL(a.href);
+
+}
+
+
 updateStaffCount();
 renderRecentRecords();
+
 </script>
 </body>
 </html>
